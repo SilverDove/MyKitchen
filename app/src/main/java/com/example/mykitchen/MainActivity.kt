@@ -64,26 +64,9 @@ class MainActivity : AppCompatActivity() {
     private fun generateItemList(recipeList : List<Recipe>, size: Int): List<ItemsClass>{
         val list = ArrayList<ItemsClass>()
         //TODO: display picture
-        val drawable = R.drawable.ic_launcher_background;
 
         for (i in 0 until size){
-            val item = ItemsClass(drawable,recipeList.get(i).title, "bla bla")
-            list += item
-        }
-
-        return list
-    }
-
-    private fun generateDummyList(size: Int): List<ItemsClass>{
-        val list = ArrayList<ItemsClass>()
-
-        for (i in 0 until size){
-            val drawable = when (i%3){
-                0 -> R.drawable.ic_launcher_background
-                1 -> R.drawable.ic_launcher_foreground
-                else -> R.drawable.ic_launcher_background
-            }
-            val item = ItemsClass(drawable, "Titel $i", "Description")
+            val item = ItemsClass(DownloadImageFromPath(recipeList.get(i).image),recipeList.get(i).title, "bla bla")
             list += item
         }
 
