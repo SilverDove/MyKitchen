@@ -24,7 +24,7 @@ class MyKitchenAdapter(private val list: List<ItemsClass>) : Adapter<MyKitchenAd
         val currentItem = list[position]
 
         //Fill data depending on the index
-        holder.imageView.setImageResource(currentItem.imageRessource);
+        holder.imageView.setImageBitmap(currentItem.imageRessource);
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.des
     }

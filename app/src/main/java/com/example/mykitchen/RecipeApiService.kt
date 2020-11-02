@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RecipeApiService {
-    @GET("/complexSearch")
+    @GET("complexSearch")
     fun getSearchResult(@Query("apiKey") apiKey: String, @Query("query") query: String) : Call<RecipeResponse>
 
 }
