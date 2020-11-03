@@ -9,7 +9,7 @@ interface RecipeApiService {
     @GET("complexSearch")
     fun getSearchResult(@Query("apiKey") apiKey: String, @Query("query") query: String) : Call<RecipeResponse>
 
-    @GET("{id}/summary/")
-    fun getSummary(@Path("id") id: Int, @Query("apiKey") apiKey: String)
+    @GET("{id}/information")
+    fun getRecipeInformation(@Path("id") id: Int, @Query("apiKey") apiKey: String) : Call<RecipeDetails>
 
 }

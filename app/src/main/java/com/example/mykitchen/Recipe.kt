@@ -1,4 +1,6 @@
 package com.example.mykitchen
 
-class Recipe (val id: Int, val title: String, val image: String, val imageType: String) {
+import com.google.gson.annotations.SerializedName
+
+class Recipe (@SerializedName("id") val id: Int, @SerializedName("title") val title: String, @SerializedName("image") val image: String) {
 }
