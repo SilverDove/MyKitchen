@@ -73,7 +73,6 @@ class details : AppCompatActivity() {
 
         WWSmartPoints.text = currentRecipe.toString()
 
-
     }
 
 
