@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".details">
+
+
+    <TextView
+        android:id="@+id/WWSmartPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WWSmartPoints" />
+
+    <TextView
+        android:id="@+id/aggregatesLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aggregatesLikes"
+        android:layout_below="@+id/WWSmartPoints"/>
+
+    <TextView
+        android:id="@+id/spoonacularScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="spoonacularScore"
+        android:layout_below="@+id/aggregatesLikes"/>
+
+    <TextView
+        android:id="@+id/healthScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="healthScore"
+        android:layout_below="@+id/spoonacularScore"/>
+
+    <TextView
+        android:id="@+id/readyInMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="readyInMinutes"
+        android:layout_below="@+id/healthScore"/>
+
+    <TextView
+        android:id="@+id/servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="servings"
+        android:layout_below="@+id/readyInMinutes"/>
+
+    <TextView
+        android:id="@+id/sourceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sourceName"
+        android:layout_below="@+id/servings"/>
+
+    <TextView
+        android:id="@+id/sourceURL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sourceURL"
+        android:layout_below="@+id/sourceName"/>
+
+    <TextView
+        android:id="@+id/summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="summary"
+        android:layout_below="@+id/sourceURL"/>
+
+    <TextView
+        android:id="@+id/pricePerServing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pricePerServing"
+        android:layout_below="@+id/summary"/>
+
+</RelativeLayout>
