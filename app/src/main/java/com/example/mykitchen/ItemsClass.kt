@@ -1,4 +1,7 @@
 package com.example.mykitchen
 
-//data of our RecycleView
-data class ItemsClass (val imageRessource: Int, val title: String, val des : String )
+import android.graphics.Bitmap
+
+//data of we want to display in our RecyclerView
+data class ItemsClass(val imageRessource: Bitmap?, val title: String, val des: String )
+
