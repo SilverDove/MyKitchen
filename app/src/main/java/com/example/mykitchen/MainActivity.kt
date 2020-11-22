@@ -2,10 +2,13 @@ package com.example.mykitchen
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.items.view.*
 import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,10 +24,28 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        makeAPICall()
+        searchRecipe()
+        //makeAPICall()
     }
 
-    private fun makeAPICall(){
+    private fun searchRecipe(){
+        val searchBar: SearchView = findViewById(R.id.search);
+
+        searchBar.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                makeAPICall(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                makeAPICall(newText)
+                return true
+            }
+        })
+
+    }
+
+    private fun makeAPICall(query: String?){
         val retrofit = Retrofit.Builder()
             .baseUrl(URL_LINK)
             .addConverterFactory(GsonConverterFactory.create())
@@ -32,7 +53,7 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
 
         val api = retrofit.create(RecipeApiService::class.java)
 
-        api.getSearchResult(API_KEY, "pasta").enqueue(object : Callback<RecipeResponse> {
+        api.getSearchResult(API_KEY, query).enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(
                 call: Call<RecipeResponse>,
                 response: Response<RecipeResponse>
