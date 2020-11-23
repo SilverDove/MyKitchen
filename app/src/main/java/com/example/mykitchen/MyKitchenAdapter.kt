@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import kotlinx.android.synthetic.main.items.view.*
 
-class MyKitchenAdapter(private val list: List<ItemsClass>) : Adapter<MyKitchenAdapter.MyKitchenViewHolder>() {
+class MyKitchenAdapter(
+    private val list: List<ItemsClass>,
+    private val listener: OnItemClickListener
+    ) : Adapter<MyKitchenAdapter.MyKitchenViewHolder>() {
 
     //Call by the RecyclerView when it is time to create a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyKitchenViewHolder { //ViewType when we want to use several type of row layout in the recyclerview
@@ -20,22 +23,29 @@ class MyKitchenAdapter(private val list: List<ItemsClass>) : Adapter<MyKitchenAd
         return MyKitchenViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: MyKitchenViewHolder, position: Int) {//What data do we put in our recyclerView?
+    override fun onBindViewHolder(holder: MyKitchenViewHolder, position: Int) {//What data do we put in our recyclerView? Function called each time the screen scrolls
         val currentItem = list[position]
 
         //Fill data depending on the index
         holder.imageView.setImageBitmap(currentItem.imageRessource);
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.des
+
+        holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
 
     //return the number of items in the list
     override fun getItemCount() = list.size
 
-    class MyKitchenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class MyKitchenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //Create properties storing the references to the Views on our row layout
         val imageView: ImageView = itemView.image_view //equivalent of findViewById(R.id.image_view)
         val title: TextView = itemView.title_view
         val desc: TextView = itemView.description_view
     }
+
+    interface OnItemClickListener {
+        fun onItemClick(position : Int) //Function implemented by another Activity/Fragment
+    }
+
 }

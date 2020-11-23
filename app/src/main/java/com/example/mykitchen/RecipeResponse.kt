@@ -1,3 +1,5 @@
 package com.example.mykitchen
 
-class RecipeResponse(val results: List<Recipe>, val offset: Int, val number: Int, val totalResults: Int)
+import com.google.gson.annotations.SerializedName
+
+class RecipeResponse(@SerializedName("results") val results: List<Recipe>, @SerializedName("offset") val offset: Int, @SerializedName("number") val number: Int, @SerializedName("totalResults") val totalResults: Int)
