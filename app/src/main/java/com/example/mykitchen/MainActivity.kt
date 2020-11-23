@@ -2,6 +2,8 @@ package com.example.mykitchen
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +28,24 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
 
         searchRecipe()
         //makeAPICall()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        when(id){
+            R.id.list -> {
+                val intent = Intent(this, ListActivity::class.java)
+                startActivity(intent)}
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun searchRecipe(){
