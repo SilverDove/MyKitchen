@@ -1,5 +1,7 @@
 package com.example.mykitchen
 
+import android.content.Context
+import android.icu.number.NumberFormatter.with
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import kotlinx.android.synthetic.main.items.view.*
+import com.squareup.picasso.Picasso as Picasso1
 
 class MyKitchenAdapter(
-    private val list: List<ItemsClass>,
-    private val listener: OnItemClickListener
+    private val list: List<Recipe>,
+    private val listener: OnItemClickListener,
+    private val context: Context
     ) : Adapter<MyKitchenAdapter.MyKitchenViewHolder>() {
 
     //Call by the RecyclerView when it is time to create a new ViewHolder
@@ -27,9 +31,12 @@ class MyKitchenAdapter(
         val currentItem = list[position]
 
         //Fill data depending on the index
-        holder.imageView.setImageBitmap(currentItem.imageRessource);
+        Picasso1.with(context)
+                .load(currentItem.image)
+                .into(holder.imageView)
+
         holder.title.text = currentItem.title
-        holder.desc.text = currentItem.des
+       // holder.desc.text = currentItem.
 
         holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
