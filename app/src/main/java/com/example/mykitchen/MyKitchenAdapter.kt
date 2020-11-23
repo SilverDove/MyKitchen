@@ -30,31 +30,18 @@ class MyKitchenAdapter(
         holder.imageView.setImageBitmap(currentItem.imageRessource);
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.des
+
+        holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
 
     //return the number of items in the list
     override fun getItemCount() = list.size
 
-    inner class MyKitchenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) ,
-    View.OnClickListener{
+    inner class MyKitchenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //Create properties storing the references to the Views on our row layout
         val imageView: ImageView = itemView.image_view //equivalent of findViewById(R.id.image_view)
         val title: TextView = itemView.title_view
         val desc: TextView = itemView.description_view
-
-        //Initialize Item click listener
-        init{
-            itemView.setOnClickListener(this)
-        }
-
-        //What we do after clicking on an item
-        override fun onClick(v: View?) {
-            val position : Int = adapterPosition //current position
-
-            if (position != RecyclerView.NO_POSITION){//test if position is valid
-                listener.onItemClick(position)
-            }
-        }
     }
 
     interface OnItemClickListener {

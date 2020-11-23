@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                makeAPICall(newText)
+//                makeAPICall(newText) Cela fait l'appel a chaque changement de caractère, il faut éviter car cela reset ta liste Listrecipe.
                 return true
             }
         })
