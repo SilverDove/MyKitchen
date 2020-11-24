@@ -1,4 +1,4 @@
-package com.example.mykitchen
+package com.example.mykitchen.data.remote
 
 import com.example.mykitchen.domain.entity.RecipeDetails
 import retrofit2.Call

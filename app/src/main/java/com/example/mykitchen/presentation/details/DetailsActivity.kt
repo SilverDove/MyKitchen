@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mykitchen.*
+import com.example.mykitchen.data.remote.RecipeApiService
 import com.example.mykitchen.domain.entity.RecipeDetails
 import retrofit2.Call
 import retrofit2.Callback

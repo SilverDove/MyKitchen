@@ -1,4 +1,4 @@
-package com.example.mykitchen
+package com.example.mykitchen.data.remote
 
 import com.example.mykitchen.domain.entity.Recipe
 import com.google.gson.annotations.SerializedName
