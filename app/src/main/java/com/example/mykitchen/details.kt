@@ -1,9 +1,11 @@
 package com.example.mykitchen
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +20,7 @@ class details : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val id = intent.getIntExtra(ID_NUMBER_INTENT,0)
+        val id = intent.getIntExtra(ID_NUMBER_INTENT, 0)
 
         Toast.makeText(this, "The ID number of this recipe is $id", Toast.LENGTH_LONG).show()
 
@@ -26,7 +28,28 @@ class details : AppCompatActivity() {
 
     }
 
-    private fun makeAPICall(id : Int){
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.details_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        //Interract with database and icons
+        when(item){
+            //TODO: change icon -> check in database (Movie&CO)
+            /*R.drawable.ic_playlist_add -> {
+                //If the movie is already in the watchlist
+                item.setIcon(R.drawable.ic_playlist_add_check)
+            }*/
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun makeAPICall(id: Int){
         val retrofit = Retrofit.Builder()
             .baseUrl(URL_LINK)
             .addConverterFactory(GsonConverterFactory.create())
@@ -37,7 +60,7 @@ class details : AppCompatActivity() {
         api.getRecipeInformation(id, API_KEY).enqueue(object : Callback<RecipeDetails> {
             override fun onResponse(
                 call: Call<RecipeDetails>,
-                response: Response<RecipeDetails>
+                response: Response<RecipeDetails>,
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     //currentRecipe= response.body()!!
