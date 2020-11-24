@@ -1,10 +1,12 @@
-package com.example.mykitchen
+package com.example.mykitchen.presentation.list
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.example.mykitchen.R
+import com.example.mykitchen.presentation.main.MainActivity
 
 class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

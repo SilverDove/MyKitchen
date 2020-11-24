@@ -1,4 +1,4 @@
-package com.example.mykitchen
+package com.example.mykitchen.presentation.details
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,13 +6,15 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mykitchen.*
+import com.example.mykitchen.domain.entity.RecipeDetails
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class details : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity() {
 
     private lateinit var currentRecipe : RecipeDetails
 
@@ -63,11 +65,10 @@ class details : AppCompatActivity() {
                 response: Response<RecipeDetails>,
             ) {
                 if (response.isSuccessful && response.body() != null) {
-                    //currentRecipe= response.body()!!
-                    System.out.println("The title is ${response.body()!!.title}")
-                    //displayContent()
+                    currentRecipe= response.body()!!
+                    //System.out.println("The title is ${response.body()!!.title}")
+                    displayContent()
                 } else {
-                    System.out.println("It's null :(")
                     showError()
                 }
             }
@@ -94,7 +95,16 @@ class details : AppCompatActivity() {
         val readyInMinuts : TextView = findViewById(R.id.readyInMinutes)
         val servings : TextView = findViewById(R.id.servings)
 
-        WWSmartPoints.text = currentRecipe.toString()
+        WWSmartPoints.text = currentRecipe.weightWatcherSmartPoints.toString()
+        aggregatesLikes.text = currentRecipe.aggregateLikes.toString()
+        spoonacularScore.text = currentRecipe.spoonacularScore.toString()
+        healthScore.text = currentRecipe.healthScore.toString()
+        sourceName.text = currentRecipe.sourceName
+        sourceURL.text = currentRecipe.sourceUrl
+        summary.text = currentRecipe.summary
+        pricePerServing.text = currentRecipe.pricePerServing.toString()
+        readyInMinuts.text = currentRecipe.readyInMinutes.toString()
+        servings.text = currentRecipe.servings.toString()
 
     }
 

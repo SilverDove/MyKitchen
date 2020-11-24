@@ -1,5 +1,6 @@
 package com.example.mykitchen
 
+import com.example.mykitchen.domain.entity.RecipeDetails
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
