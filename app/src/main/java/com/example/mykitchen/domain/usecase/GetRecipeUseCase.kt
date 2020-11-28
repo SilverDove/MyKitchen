@@ -11,7 +11,7 @@ class GetRecipeUseCase(
         //recipeRepository.getRecipe(id)
     }
 
-    fun getAllRecipe(query: String?): List<Recipe> {
+    suspend fun getAllRecipe(query: String?): List<Recipe> {
         return recipeRepository.makeRecipeAPICall(query)
     }
 }

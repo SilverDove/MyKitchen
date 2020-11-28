@@ -15,7 +15,7 @@ class RecipeRepository(
         //databaseDAO.insertRecipe(recipe.toData())
     }
 
-    fun makeRecipeAPICall(query: String?) : List<Recipe>{
+    suspend fun makeRecipeAPICall(query: String?) : List<Recipe>{
         return recipeAPICall.makeAPICall(query)
     }
 

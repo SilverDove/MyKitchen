@@ -2,6 +2,7 @@ package com.example.mykitchen.presentation.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mykitchen.API_KEY
 import com.example.mykitchen.data.remote.RecipeApiService
 import com.example.mykitchen.data.remote.RecipeResponse
@@ -9,6 +10,8 @@ import com.example.mykitchen.URL_LINK
 import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.domain.usecase.CreateRecipeUseCase
 import com.example.mykitchen.domain.usecase.GetRecipeUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,8 +33,10 @@ class MainViewModel(
     }*/
 
     fun makeAPICall(query: String?) {
-
-        listRecipe.value = getRecipeUseCase.getAllRecipe(query)
+        viewModelScope.launch(Dispatchers.IO) {
+            listRecipe.value = getRecipeUseCase.getAllRecipe(query)
+        }
+        //listRecipe.value = getRecipeUseCase.getAllRecipe(query)
 
         /*val retrofit = Retrofit.Builder()
             .baseUrl(URL_LINK)
