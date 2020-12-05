@@ -31,7 +31,7 @@ class MyKitchenAdapter(
         val currentItem = list[position]
 
         //Fill data depending on the index
-        Picasso1.with(context)
+        Picasso1.get()
                 .load(currentItem.image)
                 .into(holder.imageView)
 

@@ -27,7 +27,7 @@ class DetailsActivity : AppCompatActivity() {
 
         Toast.makeText(this, "The ID number of this recipe is $id", Toast.LENGTH_LONG).show()
 
-        makeAPICall(id);
+        //makeAPICall(id);
 
     }
 
@@ -52,7 +52,7 @@ class DetailsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun makeAPICall(id: Int){
+    /*private fun makeAPICall(id: Int){
         val retrofit = Retrofit.Builder()
             .baseUrl(URL_LINK)
             .addConverterFactory(GsonConverterFactory.create())
@@ -82,7 +82,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun showError() {
         println("API ERROR IN DETAILS")
-    }
+    }*/
 
     private fun displayContent(){
         val WWSmartPoints : TextView = findViewById(R.id.WWSmartPoints)
