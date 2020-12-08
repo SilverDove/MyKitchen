@@ -6,9 +6,13 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.example.mykitchen.*
 import com.example.mykitchen.data.remote.RecipeApiService
+import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.domain.entity.RecipeDetails
+import com.example.mykitchen.presentation.main.MainViewModel
+import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +20,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class DetailsActivity : AppCompatActivity() {
-
+    val detailsViewModel: DetailsViewModel by inject() //Activer Koin
     private lateinit var currentRecipe : RecipeDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,11 +28,15 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_details)
 
         val id = intent.getIntExtra(ID_NUMBER_INTENT, 0)
+        detailsViewModel.makeAPICall(id)
 
         Toast.makeText(this, "The ID number of this recipe is $id", Toast.LENGTH_LONG).show()
 
-        //makeAPICall(id);
-
+        //Si la liste change, MainActivity est prévenue pour modifier l'affichage
+        detailsViewModel.recipeDetails.observe(this, Observer {
+            currentRecipe = it
+            displayContent()
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,38 +59,6 @@ class DetailsActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
-    /*private fun makeAPICall(id: Int){
-        val retrofit = Retrofit.Builder()
-            .baseUrl(URL_LINK)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val api = retrofit.create(RecipeApiService::class.java)
-
-        api.getRecipeInformation(id, API_KEY).enqueue(object : Callback<RecipeDetails> {
-            override fun onResponse(
-                call: Call<RecipeDetails>,
-                response: Response<RecipeDetails>,
-            ) {
-                if (response.isSuccessful && response.body() != null) {
-                    currentRecipe= response.body()!!
-                    //System.out.println("The title is ${response.body()!!.title}")
-                    displayContent()
-                } else {
-                    showError()
-                }
-            }
-
-            override fun onFailure(call: Call<RecipeDetails>, t: Throwable) {
-                showError()
-            }
-        })
-    }
-
-    private fun showError() {
-        println("API ERROR IN DETAILS")
-    }*/
 
     private fun displayContent(){
         val WWSmartPoints : TextView = findViewById(R.id.WWSmartPoints)

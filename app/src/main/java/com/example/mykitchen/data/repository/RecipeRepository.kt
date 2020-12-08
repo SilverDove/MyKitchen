@@ -4,6 +4,7 @@ import com.example.mykitchen.API_KEY
 import com.example.mykitchen.data.local.DatabaseDAO
 import com.example.mykitchen.data.remote.RecipeApiService
 import com.example.mykitchen.domain.entity.Recipe
+import com.example.mykitchen.domain.entity.RecipeDetails
 
 class RecipeRepository(
     private val databaseDAO: DatabaseDAO,
@@ -17,6 +18,10 @@ class RecipeRepository(
     suspend fun makeRecipeAPICall(query: String?) : List<Recipe>{
         val response = recipeApiService.getSearchResult(API_KEY, query)
         return response.results
+    }
+
+    suspend fun makeRecipeAPICall(idRecipe: Int) : RecipeDetails {
+        return recipeApiService.getRecipeInformation(idRecipe, API_KEY)
     }
 
     /*fun getRecipe(id: Int) : RecipeLocal{
