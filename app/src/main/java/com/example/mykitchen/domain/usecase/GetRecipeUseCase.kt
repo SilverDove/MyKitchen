@@ -8,9 +8,6 @@ import com.example.mykitchen.domain.entity.RecipeDetails
 class GetRecipeUseCase(
     private val recipeRepository: RecipeRepository
 ) {
-    suspend fun invoke(id : Int){
-        //recipeRepository.getRecipe(id)
-    }
 
     suspend fun getAllRecipe(query: String?): List<Recipe> {
         return recipeRepository.makeRecipeAPICall(query)
@@ -18,5 +15,9 @@ class GetRecipeUseCase(
 
     suspend fun getRecipeFromID(idRecipe: Int): RecipeDetails{
         return recipeRepository.makeRecipeAPICall(idRecipe)
+    }
+
+    suspend fun getAllRecipeFromDB(): List<Recipe> {
+        return recipeRepository.getListRecipe()
     }
 }

@@ -7,8 +7,10 @@ import com.example.mykitchen.data.local.AppDatabase
 import com.example.mykitchen.data.local.DatabaseDAO
 import com.example.mykitchen.data.remote.RecipeApiService
 import com.example.mykitchen.data.repository.RecipeRepository
-import com.example.mykitchen.domain.usecase.CreateRecipeUseCase
+import com.example.mykitchen.domain.usecase.AddRecipeUseCase
 import com.example.mykitchen.domain.usecase.GetRecipeUseCase
+import com.example.mykitchen.presentation.details.DetailsViewModel
+import com.example.mykitchen.presentation.list.ListViewModel
 import com.example.mykitchen.presentation.main.MainViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -19,10 +21,12 @@ val presentationModule = module{
     //On choisit le type (single, factory etc...)
     //single : singleton i.e. garde en mémoire l'état
     factory{ MainViewModel(get(), get()) } //factory: à chaque fois que vous en demandez un, vous en crée un nouveau (create a new instance)
+    factory{DetailsViewModel(get(),get())}
+    factory { ListViewModel(get(),get()) }
 }
 
 val domainModule = module {
-    factory { CreateRecipeUseCase(get()) }
+    factory { AddRecipeUseCase(get()) }
     factory { GetRecipeUseCase(get()) }
 }
 

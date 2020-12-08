@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.mykitchen.*
 import com.example.mykitchen.data.remote.RecipeApiService
@@ -13,6 +14,7 @@ import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.domain.entity.RecipeDetails
 import com.example.mykitchen.presentation.main.MainViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,16 +48,20 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
+
+        //If click on button to add recipe in the list
+        detailsViewModel.addRecipe(currentRecipe)
+
+        /* val id = item.itemId
 
         //Interract with database and icons
-        when(item){
+        when(ContextCompat.getDrawable(this, id )){
             //TODO: change icon -> check in database (Movie&CO)
-            /*R.drawable.ic_playlist_add -> {
+            R.drawable.ic_playlist_add -> {
                 //If the movie is already in the watchlist
                 item.setIcon(R.drawable.ic_playlist_add_check)
-            }*/
-        }
+            }
+        }*/
 
         return super.onOptionsItemSelected(item)
     }

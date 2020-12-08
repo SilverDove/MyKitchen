@@ -1,4 +1,4 @@
-package com.example.mykitchen.presentation.main
+package com.example.mykitchen.presentation.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,24 +10,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-//View model ne connait pas la view. Il update seulement les variables
-class MainViewModel(
+class ListViewModel (
     private val addRecipeUseCase: AddRecipeUseCase,
     private val getRecipeUseCase: GetRecipeUseCase//Koin injection
-) :ViewModel(){
+) : ViewModel() {
 
-    var listRecipe:MutableLiveData<List<Recipe>> = MutableLiveData()
+    var listFavoriteRecipe: MutableLiveData<List<Recipe>> = MutableLiveData()
 
-    fun makeAPICall(query: String?) {
+    fun getAllFavoriteRecipe() {
         //on passe dans un thread en background
         viewModelScope.launch(Dispatchers.IO) {
-            val recipeList = getRecipeUseCase.getAllRecipe(query)
+            val response = getRecipeUseCase.getAllRecipeFromDB()
             //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
-            withContext(Dispatchers.Main){
-                listRecipe.value = recipeList
+            withContext(Dispatchers.Main) {
+                listFavoriteRecipe.value = response
             }
-
             //on se remet dans le thread en background
         }
     }
