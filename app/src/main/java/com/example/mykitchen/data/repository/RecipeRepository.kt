@@ -26,6 +26,14 @@ class RecipeRepository(
         return allRecipe
     }
 
+    suspend fun removeRecipe(recipe: Recipe){
+        databaseDAO.deleteRecipe(recipe.toData())
+    }
+
+    suspend fun getRecipeWithID(recipeID: Int): Recipe?{
+        return databaseDAO.getRecipe(recipeID).toEntity()
+    }
+
     suspend fun makeRecipeAPICall(query: String?) : List<Recipe>{
         val response = recipeApiService.getSearchResult(API_KEY, query)
         return response.results

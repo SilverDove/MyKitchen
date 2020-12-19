@@ -20,4 +20,8 @@ class GetRecipeUseCase(
     suspend fun getAllRecipeFromDB(): List<Recipe> {
         return recipeRepository.getListRecipe()
     }
+
+    suspend fun getRecipeFromDB(idRecipe: Int): Recipe?{
+        return recipeRepository.getRecipeWithID(idRecipe)
+    }
 }

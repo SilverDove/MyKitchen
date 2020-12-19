@@ -11,9 +11,6 @@ interface DatabaseDAO {
     @Query("SELECT * FROM RecipeLocal")
     fun getAll(): List<RecipeLocal>
 
-    /*@Query("SELECT * FROM RecipeLocal WHERE favorite = 'true'")
-    fun getFavoriteRecipe(): List<RecipeLocal>*/
-
     @Query("SELECT * FROM RecipeLocal WHERE recipeID = (:id)")
     fun getRecipe(id : Int): RecipeLocal
 

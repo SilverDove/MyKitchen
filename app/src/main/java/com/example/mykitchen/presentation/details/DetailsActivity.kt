@@ -3,6 +3,7 @@ package com.example.mykitchen.presentation.details
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class DetailsActivity : AppCompatActivity() {
     val detailsViewModel: DetailsViewModel by inject() //Activer Koin
     private lateinit var currentRecipe : RecipeDetails
+    //private var recipeStatus: Boolean = false; //Not added into the db
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class DetailsActivity : AppCompatActivity() {
         detailsViewModel.recipeDetails.observe(this, Observer {
             currentRecipe = it
             displayContent()
+            Toast.makeText(this, "TITLE ${currentRecipe.title}", Toast.LENGTH_LONG).show()
         })
     }
 
@@ -48,19 +51,20 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        //If click on button to add recipe in the list
-        detailsViewModel.addRecipe(currentRecipe)
-
-        /* val id = item.itemId
-
-        //Interract with database and icons
-        when(ContextCompat.getDrawable(this, id )){
-            //TODO: change icon -> check in database (Movie&CO)
-            R.drawable.ic_playlist_add -> {
-                //If the movie is already in the watchlist
-                item.setIcon(R.drawable.ic_playlist_add_check)
-            }
+        val response = detailsViewModel.ifExist(currentRecipe.idRecipe)
+        if (response == null){
+            println("NULL")
+        }else{
+            println("Recipe is ${response.title}")
+        }
+        /*if(response != null){//If click on button to remove recipe from list
+            println("WANT TO REMOVE RECIPE")
+            detailsViewModel.deleteRecipe(currentRecipe)
+            item.setIcon(R.drawable.ic_playlist_add)
+        }else{
+            println("WANT TO ADD RECIPE")
+            detailsViewModel.addRecipe(currentRecipe)
+            item.setIcon(R.drawable.ic_playlist_add_check)
         }*/
 
         return super.onOptionsItemSelected(item)

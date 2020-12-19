@@ -9,4 +9,8 @@ class AddRecipeUseCase(
     suspend fun addRecipeToDB(recipe : Recipe){
         recipeRepository.addRecipe(recipe)
     }
+
+    suspend fun removeRecipeFromDB(recipe: Recipe){
+        recipeRepository.removeRecipe(recipe)
+    }
 }
