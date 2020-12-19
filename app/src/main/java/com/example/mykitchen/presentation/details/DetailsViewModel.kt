@@ -1,5 +1,6 @@
 package com.example.mykitchen.presentation.details
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,11 @@ class DetailsViewModel (
     fun addRecipe(recipe: RecipeDetails){
         viewModelScope.launch(Dispatchers.IO) {
             val response = addRecipeUseCase.addRecipeToDB(recipe.toEntity())
+            System.out.println("ADDED ELEMENT INTO THE DATABASE. HERE IS THE LIST OF RECIPIES IN THE DATABASE:")
+            val list = getRecipeUseCase.getAllRecipeFromDB()
+            for (r in list){
+                System.out.println(r.title)
+            }
             /*//on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
             withContext(Dispatchers.Main){
                 recipeDetails.value = response
