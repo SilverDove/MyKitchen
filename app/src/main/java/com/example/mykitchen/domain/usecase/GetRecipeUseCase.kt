@@ -21,6 +21,10 @@ class GetRecipeUseCase(
         return recipeRepository.getListRecipe()
     }
 
+    suspend fun ifRecipeExists(idRecipe: Int) : Boolean{
+        return recipeRepository.checkIfExists(idRecipe)
+    }
+
     suspend fun getRecipeFromDB(idRecipe: Int): Recipe?{
         return recipeRepository.getRecipeWithID(idRecipe)
     }

@@ -17,6 +17,9 @@ interface DatabaseDAO {
     @Insert
     fun insertRecipe(recipeLocal: RecipeLocal)
 
-    @Delete
-    fun deleteRecipe(recipeLocal: RecipeLocal)
+    @Query ("DELETE FROM RecipeLocal WHERE recipeID=(:recipeid)")
+    fun deleteRecipe(recipeid : Int)
+
+    @Query ("SELECT COUNT(*) FROM RecipeLocal WHERE recipeID=(:recipeid)")
+    fun ifExist(recipeid: Int) : Int
 }

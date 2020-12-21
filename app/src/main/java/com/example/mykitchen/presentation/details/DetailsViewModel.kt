@@ -54,11 +54,12 @@ class DetailsViewModel (
         }
     }
 
-    fun ifExist(idRecipe: Int): Recipe? {
-        var recipe : Recipe? = null
+    fun ifExist(idRecipe: Int): Boolean {
+        var result = false
         viewModelScope.launch(Dispatchers.IO) {
-            recipe = getRecipeUseCase.getRecipeFromDB(idRecipe)
+            result = getRecipeUseCase.ifRecipeExists(idRecipe)
         }
-        return recipe
+
+        return result
     }
 }

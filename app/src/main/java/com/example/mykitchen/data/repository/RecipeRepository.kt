@@ -27,11 +27,17 @@ class RecipeRepository(
     }
 
     suspend fun removeRecipe(recipe: Recipe){
-        databaseDAO.deleteRecipe(recipe.toData())
+        databaseDAO.deleteRecipe(recipe.id)
     }
 
     suspend fun getRecipeWithID(recipeID: Int): Recipe?{
         return databaseDAO.getRecipe(recipeID).toEntity()
+    }
+
+    suspend fun checkIfExists(recipeID: Int) : Boolean {
+        val result = databaseDAO.ifExist(recipeID);
+        println("NUMBER OF ELEMENT IN DB: "+result)
+        return (result == 1)
     }
 
     suspend fun makeRecipeAPICall(query: String?) : List<Recipe>{

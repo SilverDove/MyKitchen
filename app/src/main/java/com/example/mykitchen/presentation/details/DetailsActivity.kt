@@ -3,6 +3,7 @@ package com.example.mykitchen.presentation.details
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.mykitchen.data.remote.RecipeApiService
 import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.domain.entity.RecipeDetails
 import com.example.mykitchen.presentation.main.MainViewModel
+import kotlinx.android.synthetic.main.activity_details.*
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import retrofit2.Call
@@ -34,6 +36,14 @@ class DetailsActivity : AppCompatActivity() {
         val id = intent.getIntExtra(ID_NUMBER_INTENT, 0)
         detailsViewModel.makeAPICall(id)
 
+        /*add.setOnClickListener {
+            detailsViewModel.addRecipe(currentRecipe)
+        }
+
+        remove.setOnClickListener{
+            detailsViewModel.deleteRecipe(currentRecipe)
+        }*/
+
         Toast.makeText(this, "The ID number of this recipe is $id", Toast.LENGTH_LONG).show()
 
         //Si la liste change, MainActivity est prévenue pour modifier l'affichage
@@ -51,22 +61,16 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val response = detailsViewModel.ifExist(currentRecipe.idRecipe)
-        if (response == null){
-            println("NULL")
-        }else{
-            println("Recipe is ${response.title}")
-        }
-        /*if(response != null){//If click on button to remove recipe from list
-            println("WANT TO REMOVE RECIPE")
+        val count = detailsViewModel.ifExist(currentRecipe.idRecipe)
+        if(count){//If true
+            println("WANT TO REMOVE RECIPE: "+count)
             detailsViewModel.deleteRecipe(currentRecipe)
             item.setIcon(R.drawable.ic_playlist_add)
         }else{
-            println("WANT TO ADD RECIPE")
+            println("WANT TO ADD RECIPE: "+count)
             detailsViewModel.addRecipe(currentRecipe)
             item.setIcon(R.drawable.ic_playlist_add_check)
-        }*/
-
+        }
         return super.onOptionsItemSelected(item)
     }
 

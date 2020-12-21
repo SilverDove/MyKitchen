@@ -76,4 +76,21 @@
         android:text="pricePerServing"
         android:layout_below="@+id/summary"/>
 
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pricePerServing"
+        android:layout_margin="15px"
+        android:layout_toRightOf="@+id/remove"
+        android:text="ADD"/>
+
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15px"
+        android:layout_below="@id/pricePerServing"
+        android:text="REMOVE"/>
+
 </RelativeLayout>
