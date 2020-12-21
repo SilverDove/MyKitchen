@@ -1,5 +1,6 @@
 package com.example.mykitchen.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.mykitchen.API_KEY
 import com.example.mykitchen.data.local.DatabaseDAO
 import com.example.mykitchen.data.local.models.toData
@@ -34,10 +35,8 @@ class RecipeRepository(
         return databaseDAO.getRecipe(recipeID).toEntity()
     }
 
-    suspend fun checkIfExists(recipeID: Int) : Boolean {
-        val result = databaseDAO.ifExist(recipeID);
-        println("NUMBER OF ELEMENT IN DB: "+result)
-        return (result == 1)
+    fun checkIfExists(recipeID: Int) : LiveData<Int> {
+        return databaseDAO.ifExist(recipeID);
     }
 
     suspend fun makeRecipeAPICall(query: String?) : List<Recipe>{

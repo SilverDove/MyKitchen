@@ -1,6 +1,7 @@
 package com.example.mykitchen.presentation.details
 
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -54,12 +55,9 @@ class DetailsViewModel (
         }
     }
 
-    fun ifExist(idRecipe: Int): Boolean {
-        var result = false
-        viewModelScope.launch(Dispatchers.IO) {
-            result = getRecipeUseCase.ifRecipeExists(idRecipe)
-        }
-
-        return result
+    fun ifExist(idRecipe: Int) : LiveData<Int>{
+        //viewModelScope.launch(Dispatchers.IO) {
+            return getRecipeUseCase.ifRecipeExists(idRecipe)
+        //}
     }
 }

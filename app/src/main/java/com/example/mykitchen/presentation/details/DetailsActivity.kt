@@ -27,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class DetailsActivity : AppCompatActivity() {
     val detailsViewModel: DetailsViewModel by inject() //Activer Koin
     private lateinit var currentRecipe : RecipeDetails
+    private var favoriteRecipe : Boolean = false
     //private var recipeStatus: Boolean = false; //Not added into the db
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,28 +49,39 @@ class DetailsActivity : AppCompatActivity() {
 
         //Si la liste change, MainActivity est prévenue pour modifier l'affichage
         detailsViewModel.recipeDetails.observe(this, Observer {
+            println("Hey Hey")
             currentRecipe = it
-            displayContent()
+            displayContent()//change adapter is enough?
             Toast.makeText(this, "TITLE ${currentRecipe.title}", Toast.LENGTH_LONG).show()
+
+            println("HELLO")
+
+            detailsViewModel.ifExist(currentRecipe.idRecipe).observe(this, {
+                println("WHAT SHOULD I PUT HERE? : $it")
+                favoriteRecipe = it != null
+            })
         })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.details_menu, menu)
+        println("onCreateOptionsMenu")
         return true
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val count = detailsViewModel.ifExist(currentRecipe.idRecipe)
-        if(count){//If true
-            println("WANT TO REMOVE RECIPE: "+count)
+
+        if(favoriteRecipe){
+            println("WANT TO REMOVE RECIPE:")
             detailsViewModel.deleteRecipe(currentRecipe)
             item.setIcon(R.drawable.ic_playlist_add)
         }else{
-            println("WANT TO ADD RECIPE: "+count)
-            detailsViewModel.addRecipe(currentRecipe)
+            println("WANT TO ADD RECIPE: ")
+            favoriteRecipe = true
             item.setIcon(R.drawable.ic_playlist_add_check)
+            detailsViewModel.addRecipe(currentRecipe)
         }
         return super.onOptionsItemSelected(item)
     }

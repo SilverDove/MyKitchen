@@ -1,5 +1,6 @@
 package com.example.mykitchen.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -20,6 +21,6 @@ interface DatabaseDAO {
     @Query ("DELETE FROM RecipeLocal WHERE recipeID=(:recipeid)")
     fun deleteRecipe(recipeid : Int)
 
-    @Query ("SELECT COUNT(*) FROM RecipeLocal WHERE recipeID=(:recipeid)")
-    fun ifExist(recipeid: Int) : Int
+    @Query ("SELECT recipeID FROM RecipeLocal WHERE recipeID=(:currentid)")
+    fun ifExist(currentid: Int) : LiveData<Int>
 }

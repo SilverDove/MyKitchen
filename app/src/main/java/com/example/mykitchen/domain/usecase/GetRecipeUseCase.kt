@@ -1,5 +1,6 @@
 package com.example.mykitchen.domain.usecase
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mykitchen.data.repository.RecipeRepository
 import com.example.mykitchen.domain.entity.Recipe
@@ -21,7 +22,7 @@ class GetRecipeUseCase(
         return recipeRepository.getListRecipe()
     }
 
-    suspend fun ifRecipeExists(idRecipe: Int) : Boolean{
+   fun ifRecipeExists(idRecipe: Int) : LiveData<Int>{
         return recipeRepository.checkIfExists(idRecipe)
     }
 
