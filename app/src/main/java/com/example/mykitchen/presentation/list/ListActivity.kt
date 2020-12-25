@@ -26,14 +26,22 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        initializeListRecipe()
+        //initializeListRecipe()
 
         //Si la liste change, ListActivity est prévenu pour modifier l'affichage
         listViewModel.listFavoriteRecipe.observe(this, Observer {
             listRecipe = it
+            println("Hey, the first element of the list is ${listRecipe.get(0).title}")
             displayList()
         })
     }
+
+    override fun onStart() {
+        println("onStart")
+        initializeListRecipe()
+        super.onStart()
+    }
+
 
     private fun initializeListRecipe(){
         listViewModel.getAllRecipeFromDB()
