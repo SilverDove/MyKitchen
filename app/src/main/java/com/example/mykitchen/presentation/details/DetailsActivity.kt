@@ -28,6 +28,7 @@ class DetailsActivity : AppCompatActivity() {
     val detailsViewModel: DetailsViewModel by inject() //Activer Koin
     private lateinit var currentRecipe : RecipeDetails
     private var favoriteRecipe : Boolean = false
+    private lateinit var menu : Menu
     //private var recipeStatus: Boolean = false; //Not added into the db
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,16 +58,29 @@ class DetailsActivity : AppCompatActivity() {
             println("HELLO")
 
             detailsViewModel.ifExist(currentRecipe.idRecipe).observe(this, {
-                println("WHAT SHOULD I PUT HERE? : $it")
                 favoriteRecipe = it != null
+                if (menu != null) run {
+                    var item = menu.findItem(R.id.add_to_list)
+                    if (item!= null){
+                        if(favoriteRecipe){
+                            println("Recipe added")
+                            item.setIcon(R.drawable.ic_playlist_add_check)
+                        }else{
+                            println("Recipe to add")
+                            item.setIcon(R.drawable.ic_playlist_add)
+                        }
+                    }
+                }
             })
         })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
+        if (menu != null) {
+            this.menu = menu
+        }
         menuInflater.inflate(R.menu.details_menu, menu)
-        println("onCreateOptionsMenu")
         return true
     }
 
@@ -76,11 +90,11 @@ class DetailsActivity : AppCompatActivity() {
         if(favoriteRecipe){
             println("WANT TO REMOVE RECIPE:")
             detailsViewModel.deleteRecipe(currentRecipe)
-            item.setIcon(R.drawable.ic_playlist_add)
+            //item.setIcon(R.drawable.ic_playlist_add)
         }else{
             println("WANT TO ADD RECIPE: ")
             favoriteRecipe = true
-            item.setIcon(R.drawable.ic_playlist_add_check)
+            //item.setIcon(R.drawable.ic_playlist_add_check)
             detailsViewModel.addRecipe(currentRecipe)
         }
         return super.onOptionsItemSelected(item)
