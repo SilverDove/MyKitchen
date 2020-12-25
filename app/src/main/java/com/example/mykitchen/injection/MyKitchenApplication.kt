@@ -17,7 +17,7 @@ class MyKitchenApplication : Application() {
             // Android context
             androidContext(this@MyKitchenApplication)
             // modules
-            modules(presentationModule)
+            modules(presentationModule, domainModule, dataModule)
         }
     }
 }

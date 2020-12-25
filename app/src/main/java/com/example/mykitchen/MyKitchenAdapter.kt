@@ -1,7 +1,6 @@
 package com.example.mykitchen
 
 import android.content.Context
-import android.icu.number.NumberFormatter.with
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.example.mykitchen.domain.entity.Recipe
 import kotlinx.android.synthetic.main.items.view.*
 import com.squareup.picasso.Picasso as Picasso1
 
@@ -31,7 +31,7 @@ class MyKitchenAdapter(
         val currentItem = list[position]
 
         //Fill data depending on the index
-        Picasso1.with(context)
+        Picasso1.get()
                 .load(currentItem.image)
                 .into(holder.imageView)
 
