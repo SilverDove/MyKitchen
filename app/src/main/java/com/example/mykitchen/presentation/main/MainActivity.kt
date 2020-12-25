@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
         val id = item.itemId
 
         when(id){
-            R.id.list -> {
+            R.id.list -> {//When click on icon to go to the list activity
                 val intent = Intent(this, ListActivity::class.java)
                 startActivity(intent)}
         }
@@ -74,9 +74,10 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {//Go to another activity after clicking on the item
-        Toast.makeText(this, "You click the item number $position", Toast.LENGTH_SHORT).show()
+        println("HEY YOU CLICKED")
+        println("The id of the recipe is : ${listRecipe[position].id}")
         val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(ID_NUMBER_INTENT, listRecipe.get(position).id)
+        intent.putExtra(ID_NUMBER_INTENT, listRecipe[position].id)
         startActivityForResult(intent,1)
     }
 }

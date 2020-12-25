@@ -11,13 +11,15 @@
         android:id="@+id/WWSmartPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WWSmartPoints" />
+        android:text="WWSmartPoints"
+        android:padding="20px"/>
 
     <TextView
         android:id="@+id/aggregatesLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="aggregatesLikes"
+        android:padding="20px"
         android:layout_below="@+id/WWSmartPoints"/>
 
     <TextView
@@ -25,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="spoonacularScore"
+        android:padding="20px"
         android:layout_below="@+id/aggregatesLikes"/>
 
     <TextView
@@ -32,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="healthScore"
+        android:padding="20px"
         android:layout_below="@+id/spoonacularScore"/>
 
     <TextView
@@ -39,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="readyInMinutes"
+        android:padding="20px"
         android:layout_below="@+id/healthScore"/>
 
     <TextView
@@ -46,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="servings"
+        android:padding="20px"
         android:layout_below="@+id/readyInMinutes"/>
 
     <TextView
@@ -53,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="sourceName"
+        android:padding="20px"
         android:layout_below="@+id/servings"/>
 
     <TextView
@@ -60,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="sourceURL"
+        android:padding="20px"
         android:layout_below="@+id/sourceName"/>
 
     <TextView
@@ -67,6 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="summary"
+        android:padding="20px"
         android:layout_below="@+id/sourceURL"/>
 
     <TextView
@@ -74,23 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="pricePerServing"
+        android:padding="20px"
         android:layout_below="@+id/summary"/>
-
-    <Button
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pricePerServing"
-        android:layout_margin="15px"
-        android:layout_toRightOf="@+id/remove"
-        android:text="ADD"/>
-
-    <Button
-        android:id="@+id/remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15px"
-        android:layout_below="@id/pricePerServing"
-        android:text="REMOVE"/>
 
 </RelativeLayout>

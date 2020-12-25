@@ -39,12 +39,19 @@ class RecipeRepository(
         return databaseDAO.ifExist(recipeID);
     }
 
-    suspend fun makeRecipeAPICall(query: String?) : List<Recipe>{
+    suspend fun makeRecipeAPICallURL(query: String?) : List<Recipe>{
         val response = recipeApiService.getSearchResult(API_KEY, query)
         return response.results
     }
 
-    suspend fun makeRecipeAPICall(idRecipe: Int) : RecipeDetails {
-        return recipeApiService.getRecipeInformation(idRecipe, API_KEY)
+    @JvmName("makeRecipeAPICall1")
+    suspend fun makeRecipeAPICallURL(url: String) : RecipeDetails {
+        return recipeApiService.getRecipeInformation(API_KEY, url,true)
+    }
+
+    suspend fun getRecipeURL(id: Int): String {
+        val response = recipeApiService.getRecipeURL(id, API_KEY).sourceUrl
+        println("repsonse is $response")
+        return response
     }
 }
