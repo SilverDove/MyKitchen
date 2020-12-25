@@ -34,7 +34,7 @@ fun RecipeLocal.toEntity() : Recipe{//Fonction d'extension pour convertir une Re
 
 fun RecipeDetails.toEntity():Recipe{
     return Recipe(
-        id= this.idRecipe,
+        id= this.id,
         title = this.title,
         image = this.image
     )

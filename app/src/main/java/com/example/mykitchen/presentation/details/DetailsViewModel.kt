@@ -1,12 +1,10 @@
 package com.example.mykitchen.presentation.details
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mykitchen.data.local.models.toEntity
-import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.domain.entity.RecipeDetails
 import com.example.mykitchen.domain.usecase.AddRecipeUseCase
 import com.example.mykitchen.domain.usecase.GetRecipeUseCase
@@ -20,11 +18,12 @@ class DetailsViewModel (
 ) : ViewModel(){
 
     var recipeDetails: MutableLiveData<RecipeDetails> = MutableLiveData()
+    var recipeURL: MutableLiveData<String> = MutableLiveData()
 
-    fun makeAPICall(idRecipe: Int) {
+    fun makeAPICall(recipeURL: String) {
         //on passe dans un thread en background
         viewModelScope.launch(Dispatchers.IO) {
-            val response = getRecipeUseCase.getRecipeFromID(idRecipe)
+            val response = getRecipeUseCase.getRecipeFromURL(recipeURL)
             //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
             withContext(Dispatchers.Main){
                 recipeDetails.value = response
@@ -59,5 +58,16 @@ class DetailsViewModel (
         //viewModelScope.launch(Dispatchers.IO) {
             return getRecipeUseCase.ifRecipeExists(idRecipe)
         //}
+    }
+
+    fun getRecipeURL(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = getRecipeUseCase.getRecipeURL(id)
+            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            withContext(Dispatchers.Main){
+                recipeURL.value = response
+            }
+            //on se remet dans le thread en background
+        }
     }
 }
