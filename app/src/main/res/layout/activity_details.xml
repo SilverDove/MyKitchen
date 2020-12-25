@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details">
+    tools:context=".presentation.details.DetailsActivity">
 
 
     <TextView
@@ -75,5 +75,22 @@
         android:layout_height="wrap_content"
         android:text="pricePerServing"
         android:layout_below="@+id/summary"/>
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pricePerServing"
+        android:layout_margin="15px"
+        android:layout_toRightOf="@+id/remove"
+        android:text="ADD"/>
+
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15px"
+        android:layout_below="@id/pricePerServing"
+        android:text="REMOVE"/>
 
 </RelativeLayout>
