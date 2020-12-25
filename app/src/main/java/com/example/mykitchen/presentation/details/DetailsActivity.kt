@@ -73,6 +73,19 @@ class DetailsActivity : AppCompatActivity() {
                 }
             })
         })
+
+        //actionbar
+        val actionbar = supportActionBar
+        //set action bar title
+        actionbar!!.title = "Details"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true;
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
