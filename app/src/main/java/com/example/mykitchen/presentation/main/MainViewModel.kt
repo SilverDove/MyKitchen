@@ -18,6 +18,7 @@ class MainViewModel(
 ) :ViewModel(){
 
     var listRecipe:MutableLiveData<List<Recipe>> = MutableLiveData()
+    var recipeURL: MutableLiveData<String> = MutableLiveData()
 
     fun makeAPICall(query: String?) {
         //on passe dans un thread en background
@@ -28,6 +29,17 @@ class MainViewModel(
                 listRecipe.value = recipeList
             }
 
+            //on se remet dans le thread en background
+        }
+    }
+
+    fun getRecipeURL(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = getRecipeUseCase.getRecipeURL(id)
+            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            withContext(Dispatchers.Main){
+                recipeURL.value = response
+            }
             //on se remet dans le thread en background
         }
     }

@@ -60,7 +60,7 @@ class DetailsViewModel (
         //}
     }
 
-    fun getRecipeURL(id: Int) {
+    /*fun getRecipeURL(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = getRecipeUseCase.getRecipeURL(id)
             //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
@@ -69,5 +69,5 @@ class DetailsViewModel (
             }
             //on se remet dans le thread en background
         }
-    }
+    }*/
 }

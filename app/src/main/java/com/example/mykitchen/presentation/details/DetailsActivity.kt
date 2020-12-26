@@ -22,23 +22,31 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var currentRecipe : RecipeDetails
     private var favoriteRecipe : Boolean = false
     private lateinit var menu : Menu
-    private lateinit var url : String
+    //private lateinit var url : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val id = intent.getIntExtra(ID_NUMBER_INTENT, 0)
-        detailsViewModel.getRecipeURL(id)
+        //actionbar
+        val actionbar = supportActionBar
+        //set action bar title
+        actionbar!!.title = ""//No title
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
+        setDisplay()
+
+        val url = intent.getStringExtra(ID_NUMBER_INTENT)
+        /*detailsViewModel.getRecipeURL(id)
         detailsViewModel.recipeURL.observe(this, Observer {
             url = it
-            Toast.makeText(this, "Id is $id", Toast.LENGTH_LONG).show()
-            Toast.makeText(this, "The URL link of this recipe is $url", Toast.LENGTH_LONG).show()
-        })
-
-        val handler = Handler()
-        handler.postDelayed({ detailsViewModel.makeAPICall(url) }, 10000) //retrieve id of recipe
-        //TODO: Display nothing until not arrived at this step
+        })*/
+        if(url != null){
+            detailsViewModel.makeAPICall(url)
+        }
+        /*val handler = Handler()
+        handler.postDelayed({ detailsViewModel.makeAPICall(url) }, 10000) //retrieve id of recipe*/
 
         //Si la liste change, MainActivity est prévenue pour modifier l'affichage
         detailsViewModel.recipeDetails.observe(this, Observer {
@@ -65,19 +73,27 @@ class DetailsActivity : AppCompatActivity() {
                 }
             })
         })
-
-        //actionbar
-        val actionbar = supportActionBar
-        //set action bar title
-        actionbar!!.title = ""
-        //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true;
+    }
+
+    fun setDisplay(){
+        titleRecipe.visibility = View.INVISIBLE
+        dishTypes.visibility = View.INVISIBLE
+        vegetarian.visibility = View.INVISIBLE
+        vegan.visibility = View.INVISIBLE
+        glutenFree.visibility = View.INVISIBLE
+        dairyFree.visibility = View.INVISIBLE
+
+        WWSmartPoints.visibility = View.INVISIBLE
+        aggregatesLike.visibility = View.INVISIBLE
+        spoonacularScore.visibility = View.INVISIBLE
+        healthScore.visibility = View.INVISIBLE
+        Ingredients.visibility = View.INVISIBLE
+        Instructions.visibility = View.INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -110,22 +126,31 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun displayContent(){
 
+        titleRecipe.visibility = View.VISIBLE
         titleRecipe.text = currentRecipe.title
+
+        dishTypes.visibility = View.VISIBLE
         if (currentRecipe.dishTypes.isNotEmpty()){
             dishTypes.text = currentRecipe.dishTypes.toString()
         }
 
-        //1st column
-        vegetarian.text = "Vegetarian: ${currentRecipe.vegetarian}"
-        vegan.text = "Vegetarian: ${currentRecipe.vegan}"
-        glutenFree.text = "Vegetarian: ${currentRecipe.glutenFree}"
-        dairyFree.text = "Vegetarian: ${currentRecipe.dairyFree}"
+        vegetarian.visibility = View.VISIBLE
+        vegetarian.text = "${currentRecipe.vegetarian}"
+        vegan.visibility = View.VISIBLE
+        vegan.text = "${currentRecipe.vegan}"
+        glutenFree.visibility = View.VISIBLE
+        glutenFree.text = "${currentRecipe.glutenFree}"
+        dairyFree.visibility = View.VISIBLE
+        dairyFree.text = "${currentRecipe.dairyFree}"
 
-        //2nd column
-        WWSmartPoints.text= "Weigh Watcher Smart Points: ${currentRecipe.weightWatcherSmartPoints}"
-        aggregatesLike.text = "Aggregates Likes: ${currentRecipe.aggregateLikes}"
-        spoonacularScore.text= "Spoonacular Score: ${currentRecipe.spoonacularScore}"
-        healthScore.text = "Health Score: ${currentRecipe.healthScore}"
+        WWSmartPoints.visibility = View.VISIBLE
+        WWSmartPoints.text= "${currentRecipe.weightWatcherSmartPoints}"
+        aggregatesLike.visibility = View.VISIBLE
+        aggregatesLike.text = "${currentRecipe.aggregateLikes}"
+        spoonacularScore.visibility = View.VISIBLE
+        spoonacularScore.text= "${currentRecipe.spoonacularScore}"
+        healthScore.visibility = View.VISIBLE
+        healthScore.text = "${currentRecipe.healthScore}"
 
         //Ingredients
         displayIngredients()
@@ -136,6 +161,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun displayIngredients(){
 
+        Ingredients.visibility = View.VISIBLE
         for (i in currentRecipe.extendedIngredients.indices){
             val ing = TextView(this)
             ing.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -147,6 +173,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun displayInstructions(){
 
+        Instructions.visibility = View.VISIBLE
         for(instruction in currentRecipe.analyzedInstruction[0].steps){
             val instr = TextView(this)
             instr.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
