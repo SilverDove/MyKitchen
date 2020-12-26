@@ -36,7 +36,6 @@ class MyKitchenAdapter(
                 .into(holder.imageView)
 
         holder.title.text = currentItem.title
-       // holder.desc.text = currentItem.
 
         holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
@@ -48,7 +47,6 @@ class MyKitchenAdapter(
         //Create properties storing the references to the Views on our row layout
         val imageView: ImageView = itemView.image_view //equivalent of findViewById(R.id.image_view)
         val title: TextView = itemView.title_view
-        val desc: TextView = itemView.description_view
     }
 
     interface OnItemClickListener {

@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +14,6 @@ import androidx.lifecycle.Observer
 import com.example.mykitchen.*
 import com.example.mykitchen.domain.entity.RecipeDetails
 import kotlinx.android.synthetic.main.activity_details.*
-import kotlinx.coroutines.delay
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -51,11 +53,11 @@ class DetailsActivity : AppCompatActivity() {
                 favoriteRecipe = it != null
                 if (menu != null) run {
                     var item = menu.findItem(R.id.add_to_list)
-                    if (item!= null){
-                        if(favoriteRecipe){
+                    if (item != null) {
+                        if (favoriteRecipe) {
                             println("Recipe added")
                             item.setIcon(R.drawable.ic_playlist_add_check)
-                        }else{
+                        } else {
                             println("Recipe to add")
                             item.setIcon(R.drawable.ic_playlist_add)
                         }
@@ -67,7 +69,7 @@ class DetailsActivity : AppCompatActivity() {
         //actionbar
         val actionbar = supportActionBar
         //set action bar title
-        actionbar!!.title = "Details"
+        actionbar!!.title = ""
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -91,11 +93,11 @@ class DetailsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.add_to_list -> {
-                if(favoriteRecipe){
+                if (favoriteRecipe) {
                     println("WANT TO REMOVE RECIPE:")
                     detailsViewModel.deleteRecipe(currentRecipe)
                     //item.setIcon(R.drawable.ic_playlist_add)
-                }else{
+                } else {
                     println("WANT TO ADD RECIPE: ")
                     favoriteRecipe = true
                     //item.setIcon(R.drawable.ic_playlist_add_check)
@@ -107,29 +109,50 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun displayContent(){
-        val WWSmartPoints : TextView = findViewById(R.id.WWSmartPoints)
-        val aggregatesLikes : TextView = findViewById(R.id.aggregatesLikes)
-        val spoonacularScore : TextView = findViewById(R.id.spoonacularScore)
-        val healthScore : TextView = findViewById(R.id.healthScore)
-        val sourceName : TextView = findViewById(R.id.sourceName)
-        val sourceURL : TextView = findViewById(R.id.sourceURL)
-        val summary : TextView = findViewById(R.id.summary)
-        val pricePerServing : TextView = findViewById(R.id.pricePerServing)
-        val readyInMinuts : TextView = findViewById(R.id.readyInMinutes)
-        val servings : TextView = findViewById(R.id.servings)
 
-        WWSmartPoints.text = currentRecipe.weightWatcherSmartPoints.toString()
-        aggregatesLikes.text = currentRecipe.aggregateLikes.toString()
-        spoonacularScore.text = currentRecipe.spoonacularScore.toString()
-        healthScore.text = currentRecipe.healthScore.toString()
-        sourceName.text = currentRecipe.sourceName
-        sourceURL.text = currentRecipe.sourceUrl
-        //summary.text = currentRecipe.summary
-        pricePerServing.text = currentRecipe.pricePerServing.toString()
-        //readyInMinuts.text = currentRecipe.readyInMinutes.toString()
-        servings.text = currentRecipe.servings.toString()
+        titleRecipe.text = currentRecipe.title
+        if (currentRecipe.dishTypes.isNotEmpty()){
+            dishTypes.text = currentRecipe.dishTypes.toString()
+        }
+
+        //1st column
+        vegetarian.text = "Vegetarian: ${currentRecipe.vegetarian}"
+        vegan.text = "Vegetarian: ${currentRecipe.vegan}"
+        glutenFree.text = "Vegetarian: ${currentRecipe.glutenFree}"
+        dairyFree.text = "Vegetarian: ${currentRecipe.dairyFree}"
+
+        //2nd column
+        WWSmartPoints.text= "Weigh Watcher Smart Points: ${currentRecipe.weightWatcherSmartPoints}"
+        aggregatesLike.text = "Aggregates Likes: ${currentRecipe.aggregateLikes}"
+        spoonacularScore.text= "Spoonacular Score: ${currentRecipe.spoonacularScore}"
+        healthScore.text = "Health Score: ${currentRecipe.healthScore}"
+
+        //Ingredients
+        displayIngredients()
+
+        //Instructions
+        displayInstructions()
+    }
+
+    private fun displayIngredients(){
+
+        for (i in currentRecipe.extendedIngredients.indices){
+            val ing = TextView(this)
+            ing.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            ing.text = currentRecipe.extendedIngredients[i].name
+            ingredientsLayout?.addView(ing)
+        }
 
     }
 
+    private fun displayInstructions(){
+
+        for(instruction in currentRecipe.analyzedInstruction[0].steps){
+            val instr = TextView(this)
+            instr.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            instr.text = instruction.detailStep
+            instructionsLayout?.addView(instr)
+        }
+    }
 
 }
