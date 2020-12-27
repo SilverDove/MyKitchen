@@ -40,4 +40,16 @@ class ListViewModel (
             //on se remet dans le thread en background
         }
     }
+
+    fun deleteAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            addRecipeUseCase.removeAllFromDB()
+            val response = getRecipeUseCase.getAllRecipeFromDB()
+            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            withContext(Dispatchers.Main) {
+                listFavoriteRecipe.value = response
+            }
+            //on se remet dans le thread en background
+        }
+    }
 }

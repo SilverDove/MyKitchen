@@ -32,14 +32,12 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
         //Si la liste change, MainActivity est prévenue pour modifier l'affichage
         mainViewModel.listRecipe.observe(this, Observer {
             listRecipe = it
+            displayList()
             if(listRecipe.isEmpty()){
                 noResult.visibility = View.VISIBLE
-                recycler_view.visibility = View.INVISIBLE
                 noResult.text = "What? No results? \nWe searched everywhere but we didn\'t find what you were looking for ☹"
             }else{
                 noResult.visibility = View.INVISIBLE
-                recycler_view.visibility = View.VISIBLE
-                displayList()
             }
 
         })

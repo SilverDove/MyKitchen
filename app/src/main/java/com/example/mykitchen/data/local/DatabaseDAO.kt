@@ -23,4 +23,7 @@ interface DatabaseDAO {
 
     @Query ("SELECT recipeID FROM RecipeLocal WHERE recipeID=(:currentid)")
     fun ifExist(currentid: Int) : LiveData<Int>
+
+    @Query("DELETE FROM RecipeLocal")
+    fun deleteAllRecipe()
 }

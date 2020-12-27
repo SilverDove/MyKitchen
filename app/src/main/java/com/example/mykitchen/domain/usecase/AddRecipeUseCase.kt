@@ -13,4 +13,8 @@ class AddRecipeUseCase(
     suspend fun removeRecipeFromDB(recipe: Recipe){
         recipeRepository.removeRecipe(recipe)
     }
+
+    fun removeAllFromDB() {
+        recipeRepository.removeAll()
+    }
 }

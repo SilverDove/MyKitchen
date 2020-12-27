@@ -4,29 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FEF6EB"
     tools:context=".presentation.main.MainActivity">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
-        app:queryHint="Search Bar"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="#96C0CE"
+        app:queryHint="Search Bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:padding="4dp"
-        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search"/>
+        android:layout_below="@id/search"
+        android:clipToPadding="false"
+        android:padding="4dp" />
 
     <TextView
         android:id="@+id/noResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/search"
         android:layout_margin="20dp"
         android:gravity="center_horizontal"
-        android:text=""
-        android:layout_below="@+id/search"/>
+        android:text="" />
 
 </RelativeLayout>
