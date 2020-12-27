@@ -72,10 +72,14 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
     }
 
     override fun onItemClick(position: Int) {//Go to another activity after clicking on the item
-        Toast.makeText(this, "You click the item number $position", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(ID_NUMBER_INTENT, listRecipe.get(position).id)
-        startActivityForResult(intent,1)
+        var url : String
+        listViewModel.getRecipeURL(listRecipe[position].id)
+        listViewModel.recipeURL.observe(this, Observer {
+            url = it
+            intent.putExtra(ID_NUMBER_INTENT, url)
+            startActivityForResult(intent,1)
+        })
     }
 
 }

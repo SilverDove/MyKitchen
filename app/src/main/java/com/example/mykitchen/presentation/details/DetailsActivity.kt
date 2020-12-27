@@ -1,7 +1,6 @@
 package com.example.mykitchen.presentation.details
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.mykitchen.*
 import com.example.mykitchen.domain.entity.RecipeDetails
 import kotlinx.android.synthetic.main.activity_details.*
 import org.koin.android.ext.android.inject
-import java.util.*
 
 class DetailsActivity : AppCompatActivity() {
     val detailsViewModel: DetailsViewModel by inject() //Activer Koin
@@ -35,27 +33,19 @@ class DetailsActivity : AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-        setDisplay()
+        InitialConfiguration()
+    }
 
+    fun InitialConfiguration(){
         val url = intent.getStringExtra(ID_NUMBER_INTENT)
-        /*detailsViewModel.getRecipeURL(id)
-        detailsViewModel.recipeURL.observe(this, Observer {
-            url = it
-        })*/
         if(url != null){
             detailsViewModel.makeAPICall(url)
         }
-        /*val handler = Handler()
-        handler.postDelayed({ detailsViewModel.makeAPICall(url) }, 10000) //retrieve id of recipe*/
 
         //Si la liste change, MainActivity est prévenue pour modifier l'affichage
         detailsViewModel.recipeDetails.observe(this, Observer {
-            println("Hey Hey")
             currentRecipe = it
-            displayContent()//change adapter is enough?
-            Toast.makeText(this, "TITLE ${currentRecipe.title}", Toast.LENGTH_LONG).show()
-
-            println("HELLO")
+            displayContent()
 
             detailsViewModel.ifExist(currentRecipe.id).observe(this, {
                 favoriteRecipe = it != null
@@ -63,10 +53,8 @@ class DetailsActivity : AppCompatActivity() {
                     var item = menu.findItem(R.id.add_to_list)
                     if (item != null) {
                         if (favoriteRecipe) {
-                            println("Recipe added")
                             item.setIcon(R.drawable.ic_playlist_add_check)
                         } else {
-                            println("Recipe to add")
                             item.setIcon(R.drawable.ic_playlist_add)
                         }
                     }
@@ -78,22 +66,6 @@ class DetailsActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true;
-    }
-
-    fun setDisplay(){
-        titleRecipe.visibility = View.INVISIBLE
-        dishTypes.visibility = View.INVISIBLE
-        vegetarian.visibility = View.INVISIBLE
-        vegan.visibility = View.INVISIBLE
-        glutenFree.visibility = View.INVISIBLE
-        dairyFree.visibility = View.INVISIBLE
-
-        WWSmartPoints.visibility = View.INVISIBLE
-        aggregatesLike.visibility = View.INVISIBLE
-        spoonacularScore.visibility = View.INVISIBLE
-        healthScore.visibility = View.INVISIBLE
-        Ingredients.visibility = View.INVISIBLE
-        Instructions.visibility = View.INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -110,14 +82,12 @@ class DetailsActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.add_to_list -> {
                 if (favoriteRecipe) {
-                    println("WANT TO REMOVE RECIPE:")
                     detailsViewModel.deleteRecipe(currentRecipe)
-                    //item.setIcon(R.drawable.ic_playlist_add)
+                    Toast.makeText(this, "The recipe ${currentRecipe.title} was removed from your list", Toast.LENGTH_LONG).show()
                 } else {
-                    println("WANT TO ADD RECIPE: ")
                     favoriteRecipe = true
-                    //item.setIcon(R.drawable.ic_playlist_add_check)
                     detailsViewModel.addRecipe(currentRecipe)
+                    Toast.makeText(this, "The recipe ${currentRecipe.title} was added to your list", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -126,30 +96,39 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun displayContent(){
 
-        titleRecipe.visibility = View.VISIBLE
         titleRecipe.text = currentRecipe.title
 
-        dishTypes.visibility = View.VISIBLE
         if (currentRecipe.dishTypes.isNotEmpty()){
             dishTypes.text = currentRecipe.dishTypes.toString()
         }
 
-        vegetarian.visibility = View.VISIBLE
-        vegetarian.text = "${currentRecipe.vegetarian}"
-        vegan.visibility = View.VISIBLE
-        vegan.text = "${currentRecipe.vegan}"
-        glutenFree.visibility = View.VISIBLE
-        glutenFree.text = "${currentRecipe.glutenFree}"
-        dairyFree.visibility = View.VISIBLE
-        dairyFree.text = "${currentRecipe.dairyFree}"
+        if(currentRecipe.vegetarian){
+            vegetarian.setImageResource(R.drawable.vegetarian)
+        }else{
+            vegetarian.setImageResource(R.drawable.no_vegetarian)
+        }
 
-        WWSmartPoints.visibility = View.VISIBLE
+        if(currentRecipe.vegan){
+            vegan.setImageResource(R.drawable.vegan)
+        }else{
+            vegan.setImageResource(R.drawable.no_vegan)
+        }
+
+        if(currentRecipe.glutenFree){
+            glutenFree.setImageResource(R.drawable.gluten_free)
+        }else{
+            glutenFree.setImageResource(R.drawable.no_gluten_free)
+        }
+
+        if(currentRecipe.dairyFree){
+            dairyFree.setImageResource(R.drawable.dairy_free)
+        }else{
+            dairyFree.setImageResource(R.drawable.no_dairy_free)
+        }
+
         WWSmartPoints.text= "${currentRecipe.weightWatcherSmartPoints}"
-        aggregatesLike.visibility = View.VISIBLE
         aggregatesLike.text = "${currentRecipe.aggregateLikes}"
-        spoonacularScore.visibility = View.VISIBLE
         spoonacularScore.text= "${currentRecipe.spoonacularScore}"
-        healthScore.visibility = View.VISIBLE
         healthScore.text = "${currentRecipe.healthScore}"
 
         //Ingredients
@@ -157,28 +136,31 @@ class DetailsActivity : AppCompatActivity() {
 
         //Instructions
         displayInstructions()
+
+        sourceURL.text = currentRecipe.sourceUrl
     }
 
     private fun displayIngredients(){
 
-        Ingredients.visibility = View.VISIBLE
         for (i in currentRecipe.extendedIngredients.indices){
             val ing = TextView(this)
             ing.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            ing.text = currentRecipe.extendedIngredients[i].name
+            ing.text = "- ${currentRecipe.extendedIngredients[i].name}      ${currentRecipe.extendedIngredients[i].amount} ${currentRecipe.extendedIngredients[i].unit}"
+            ing.textSize = 18F
             ingredientsLayout?.addView(ing)
         }
 
     }
 
     private fun displayInstructions(){
-
-        Instructions.visibility = View.VISIBLE
+        var i=1
         for(instruction in currentRecipe.analyzedInstruction[0].steps){
             val instr = TextView(this)
             instr.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            instr.text = instruction.detailStep
+            instr.text = "${i} - ${instruction.detailStep}"
+            instr.textSize = 18F
             instructionsLayout?.addView(instr)
+            i++
         }
     }
 
