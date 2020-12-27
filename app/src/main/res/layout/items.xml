@@ -22,17 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/image_view"
             android:text="Title recipe"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textColor="#C25B56"
+            android:textSize="24sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/description_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title_view"
-            android:layout_toEndOf="@id/image_view"
-            android:text="Description" />
 
     </RelativeLayout>
 

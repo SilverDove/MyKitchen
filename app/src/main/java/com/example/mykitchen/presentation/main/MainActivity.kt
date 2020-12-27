@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -24,12 +25,21 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        noResult.text = "Use the search bar to find a recipe"
+
         searchRecipe()
 
         //Si la liste change, MainActivity est prévenue pour modifier l'affichage
         mainViewModel.listRecipe.observe(this, Observer {
             listRecipe = it
             displayList()
+            if(listRecipe.isEmpty()){
+                noResult.visibility = View.VISIBLE
+                noResult.text = "What? No results? \nWe searched everywhere but we didn\'t find what you were looking for ☹"
+            }else{
+                noResult.visibility = View.INVISIBLE
+            }
+
         })
     }
 
@@ -61,7 +71,9 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                //TODO: faire un API REST seulement après avoir écrit un certain nombre de caractère
+                if( newText?.length!! > 3){
+                    mainViewModel.makeAPICall(newText)
+                }
                 return true
             }
         })

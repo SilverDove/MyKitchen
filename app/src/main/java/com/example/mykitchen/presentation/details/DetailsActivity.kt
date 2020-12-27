@@ -64,6 +64,8 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        //TODO: check if it is working
+        finish()
         onBackPressed()
         return true;
     }

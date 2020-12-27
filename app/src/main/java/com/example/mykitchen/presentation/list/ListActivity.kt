@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +16,9 @@ import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.presentation.details.DetailsActivity
 import com.example.mykitchen.presentation.main.MainActivity
 import com.example.mykitchen.presentation.main.MainViewModel
+import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.recycler_view
 import org.koin.android.ext.android.inject
 
 class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener {
@@ -26,18 +29,27 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        //initializeListRecipe()
+        deleteAll.setOnClickListener{
+            listViewModel.deleteAll()
+        }
 
         //Si la liste change, ListActivity est prévenu pour modifier l'affichage
         listViewModel.listFavoriteRecipe.observe(this, Observer {
             listRecipe = it
-            println("Hey, the first element of the list is ${listRecipe.get(0).title}")
             displayList()
+            if(listRecipe.isEmpty()){
+                listMessage.visibility = View.VISIBLE
+                deleteAll.visibility = View.INVISIBLE
+                listMessage.text = "You didn't add any recipe into you list ...."
+            }else{
+                listMessage.visibility = View.INVISIBLE
+                deleteAll.visibility = View.VISIBLE
+                //displayList()
+            }
         })
     }
 
     override fun onStart() {
-        println("onStart")
         initializeListRecipe()
         super.onStart()
     }

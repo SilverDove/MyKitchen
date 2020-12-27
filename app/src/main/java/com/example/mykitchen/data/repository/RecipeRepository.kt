@@ -40,8 +40,7 @@ class RecipeRepository(
     }
 
     suspend fun makeRecipeAPICallURL(query: String?) : List<Recipe>{
-        val response = recipeApiService.getSearchResult(API_KEY, query)
-        return response.results
+        return  recipeApiService.getSearchResult(API_KEY, query).results
     }
 
     @JvmName("makeRecipeAPICall1")
@@ -50,8 +49,10 @@ class RecipeRepository(
     }
 
     suspend fun getRecipeURL(id: Int): String {
-        val response = recipeApiService.getRecipeURL(id, API_KEY).sourceUrl
-        println("repsonse is $response")
-        return response
+        return recipeApiService.getRecipeURL(id, API_KEY).sourceUrl
+    }
+
+    fun removeAll() {
+        databaseDAO.deleteAllRecipe()
     }
 }
