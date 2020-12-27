@@ -16,6 +16,7 @@ class ListViewModel (
 ) : ViewModel() {
 
     var listFavoriteRecipe: MutableLiveData<List<Recipe>> = MutableLiveData()
+    var recipeURL: MutableLiveData<String> = MutableLiveData()
 
     fun getAllRecipeFromDB() {
         //on passe dans un thread en background
@@ -24,6 +25,17 @@ class ListViewModel (
             //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
             withContext(Dispatchers.Main) {
                 listFavoriteRecipe.value = response
+            }
+            //on se remet dans le thread en background
+        }
+    }
+
+    fun getRecipeURL(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = getRecipeUseCase.getRecipeURL(id)
+            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            withContext(Dispatchers.Main){
+                recipeURL.value = response
             }
             //on se remet dans le thread en background
         }

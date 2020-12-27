@@ -74,10 +74,13 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {//Go to another activity after clicking on the item
-        println("HEY YOU CLICKED")
-        println("The id of the recipe is : ${listRecipe[position].id}")
         val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(ID_NUMBER_INTENT, listRecipe[position].id)
-        startActivityForResult(intent,1)
+        var url : String
+        mainViewModel.getRecipeURL(listRecipe[position].id)
+        mainViewModel.recipeURL.observe(this, Observer {
+            url = it
+            intent.putExtra(ID_NUMBER_INTENT, url)
+            startActivityForResult(intent,1)
+        })
     }
 }
