@@ -91,7 +91,7 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
         listViewModel.recipeURL.observe(this, Observer {
             url = it
             intent.putExtra(ID_NUMBER_INTENT, url)//Go to another activity to see the details of the recipe
-            startActivityForResult(intent,1)
+            startActivity(intent)
         })
     }
 

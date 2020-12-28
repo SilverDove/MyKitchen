@@ -65,11 +65,11 @@ class DetailsActivity : AppCompatActivity() {
         })
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+    /*override fun onSupportNavigateUp(): Boolean {
         //TODO: check if it is working
         onBackPressed()
         return true;
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -93,6 +93,11 @@ class DetailsActivity : AppCompatActivity() {
                     detailsViewModel.addRecipe(currentRecipe)
                     Toast.makeText(this, "The recipe ${currentRecipe.title} was added to your list", Toast.LENGTH_LONG).show()
                 }
+            }
+
+            android.R.id.home -> {
+                finish()
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
