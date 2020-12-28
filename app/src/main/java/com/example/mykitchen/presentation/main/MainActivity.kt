@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
         mainViewModel.recipeURL.observe(this, Observer {
             url = it
             intent.putExtra(ID_NUMBER_INTENT, url)
-            startActivityForResult(intent,1)
+            startActivity(intent)
         })
     }
 }
