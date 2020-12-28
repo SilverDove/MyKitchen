@@ -44,6 +44,9 @@ It's also possible to fetch the [release project]() and then import it directly 
  
  ### Home Page
   The user can search any recipe by using the search bar. At the beginning, a message is displayed to indicate what the user should do.
+  
+  <img src="https://github.com/SilverDove/MyKitchen/blob/master/ScreenShots/Home_Page.png" width="200" height="400" />
+
  
  ![](https://github.com/SilverDove/MyKitchen/blob/master/ScreenShots/Home_Page.png =250x250)
 
