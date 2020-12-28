@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso as Picasso1
 class MyKitchenAdapter(
     private val list: List<Recipe>,
     private val listener: OnItemClickListener,
-    private val context: Context
     ) : Adapter<MyKitchenAdapter.MyKitchenViewHolder>() {
 
     //Call by the RecyclerView when it is time to create a new ViewHolder
@@ -31,13 +30,14 @@ class MyKitchenAdapter(
         val currentItem = list[position]
 
         //Fill data depending on the index
+        //image of the recipe
         Picasso1.get()
                 .load(currentItem.image)
                 .into(holder.imageView)
-
+        //name of the recipe
         holder.title.text = currentItem.title
-       // holder.desc.text = currentItem.
 
+        //When click on the recipe in the list
         holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
 
@@ -48,11 +48,10 @@ class MyKitchenAdapter(
         //Create properties storing the references to the Views on our row layout
         val imageView: ImageView = itemView.image_view //equivalent of findViewById(R.id.image_view)
         val title: TextView = itemView.title_view
-        val desc: TextView = itemView.description_view
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position : Int) //Function implemented by another Activity/Fragment
+        fun onItemClick(position : Int) //Function implemented by another Activity to manage the action when we click on a recipe in the list
     }
 
 }

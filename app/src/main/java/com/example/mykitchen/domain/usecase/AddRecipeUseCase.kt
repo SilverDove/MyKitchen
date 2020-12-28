@@ -6,11 +6,16 @@ import com.example.mykitchen.domain.entity.Recipe
 class AddRecipeUseCase(
     private val recipeRepository: RecipeRepository
     ) {
+
     suspend fun addRecipeToDB(recipe : Recipe){
         recipeRepository.addRecipe(recipe)
     }
 
     suspend fun removeRecipeFromDB(recipe: Recipe){
         recipeRepository.removeRecipe(recipe)
+    }
+
+    fun removeAllFromDB() {
+        recipeRepository.removeAll()
     }
 }

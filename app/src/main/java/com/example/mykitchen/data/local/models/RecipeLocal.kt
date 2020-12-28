@@ -16,7 +16,7 @@ data class RecipeLocal(
 }
 
 //Add recipe into the database?
-fun Recipe.toData() : RecipeLocal{//Fonction d'extension pour convertir une Recipe en RecipeLocal
+fun Recipe.toData() : RecipeLocal{//Extend function to convert a Recipe into a RecipeLocal
     return RecipeLocal(
         recipeID = this.id,
         title = this.title,
@@ -24,7 +24,7 @@ fun Recipe.toData() : RecipeLocal{//Fonction d'extension pour convertir une Reci
     )
 }
 
-fun RecipeLocal.toEntity() : Recipe{//Fonction d'extension pour convertir une RecipeLocal en Recipe
+fun RecipeLocal.toEntity() : Recipe{//Extend function to convert a RecipeLocal into a Recipe
        return Recipe (
            id = this.recipeID,
            title = this.title,
@@ -34,7 +34,7 @@ fun RecipeLocal.toEntity() : Recipe{//Fonction d'extension pour convertir une Re
 
 fun RecipeDetails.toEntity():Recipe{
     return Recipe(
-        id= this.idRecipe,
+        id= this.id,
         title = this.title,
         image = this.image
     )

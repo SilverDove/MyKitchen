@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +16,9 @@ import com.example.mykitchen.domain.entity.Recipe
 import com.example.mykitchen.presentation.details.DetailsActivity
 import com.example.mykitchen.presentation.main.MainActivity
 import com.example.mykitchen.presentation.main.MainViewModel
+import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.recycler_view
 import org.koin.android.ext.android.inject
 
 class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener {
@@ -26,21 +29,39 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        initializeListRecipe()
+        //When the user click on the "delete all" button
+        deleteAll.setOnClickListener{
+            listViewModel.deleteAll()
+        }
 
-        //Si la liste change, ListActivity est prévenu pour modifier l'affichage
+        //If the list of favorite recipes changed, we update the list
         listViewModel.listFavoriteRecipe.observe(this, Observer {
             listRecipe = it
-            displayList()
+            displayList()//Display the list of favorite recipe
+            if(listRecipe.isEmpty()){//If the list is empty
+                listMessage.visibility = View.VISIBLE
+                deleteAll.visibility = View.INVISIBLE
+                listMessage.text = "You didn't add any recipe into you list ...."
+            }else{
+                listMessage.visibility = View.INVISIBLE
+                deleteAll.visibility = View.VISIBLE
+                //displayList()
+            }
         })
     }
+
+    override fun onStart() {//When we go back to the list, we update the list
+        initializeListRecipe()
+        super.onStart()
+    }
+
 
     private fun initializeListRecipe(){
         listViewModel.getAllRecipeFromDB()
     }
 
     private fun displayList(){
-        recycler_view.adapter = MyKitchenAdapter(listRecipe, this, this)
+        recycler_view.adapter = MyKitchenAdapter(listRecipe, this)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)//Optimize performance when list size is fixed
     }
@@ -55,7 +76,7 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
         val id = item.itemId
 
         when(id){
-            R.id.home -> {
+            R.id.home -> {//If we click on the "home' icon, we go back to the main activity
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)}
         }
@@ -63,11 +84,15 @@ class ListActivity : AppCompatActivity() , MyKitchenAdapter.OnItemClickListener 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(position: Int) {//Go to another activity after clicking on the item
-        Toast.makeText(this, "You click the item number $position", Toast.LENGTH_SHORT).show()
+    override fun onItemClick(position: Int) {//Go to another activity after clicking on the item to see the details of the recipe
         val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(ID_NUMBER_INTENT, listRecipe.get(position).id)
-        startActivityForResult(intent,1)
+        var url : String
+        listViewModel.getRecipeURL(listRecipe[position].id)//Get the url of the selected recipe from the list
+        listViewModel.recipeURL.observe(this, Observer {
+            url = it
+            intent.putExtra(ID_NUMBER_INTENT, url)//Go to another activity to see the details of the recipe
+            startActivityForResult(intent,1)
+        })
     }
 
 }
