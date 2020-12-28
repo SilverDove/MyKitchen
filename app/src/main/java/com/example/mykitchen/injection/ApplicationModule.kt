@@ -18,9 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val presentationModule = module{
-    //On choisit le type (single, factory etc...)
-    //single : singleton i.e. garde en mémoire l'état
-    factory{ MainViewModel(get(), get()) } //factory: à chaque fois que vous en demandez un, vous en crée un nouveau (create a new instance)
+    factory{ MainViewModel(get()) }
     factory{DetailsViewModel(get(),get())}
     factory { ListViewModel(get(),get()) }
 }
@@ -31,7 +29,7 @@ val domainModule = module {
 }
 
 val dataModule = module{
-    single { RecipeRepository(get(), get()) }//single = singleton (créé une seule fois et les valeurs des variables restent les même pendant que l'app run)
+    single { RecipeRepository(get(), get()) }
     single { createDatabase(androidContext())}
     single { createApiRest() }
 }

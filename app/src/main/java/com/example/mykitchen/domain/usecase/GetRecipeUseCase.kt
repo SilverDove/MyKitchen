@@ -25,10 +25,6 @@ class GetRecipeUseCase(
         return recipeRepository.checkIfExists(idRecipe)
     }
 
-    suspend fun getRecipeFromDB(idRecipe: Int): Recipe?{
-        return recipeRepository.getRecipeWithID(idRecipe)
-    }
-
     suspend fun getRecipeURL(id: Int): String {
         return recipeRepository.getRecipeURL(id)
     }

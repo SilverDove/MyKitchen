@@ -31,10 +31,6 @@ class RecipeRepository(
         databaseDAO.deleteRecipe(recipe.id)
     }
 
-    suspend fun getRecipeWithID(recipeID: Int): Recipe?{
-        return databaseDAO.getRecipe(recipeID).toEntity()
-    }
-
     fun checkIfExists(recipeID: Int) : LiveData<Int> {
         return databaseDAO.ifExist(recipeID);
     }

@@ -18,43 +18,33 @@ class DetailsViewModel (
 ) : ViewModel(){
 
     var recipeDetails: MutableLiveData<RecipeDetails> = MutableLiveData()
-    var recipeURL: MutableLiveData<String> = MutableLiveData()
 
     fun makeAPICall(recipeURL: String) {
-        //on passe dans un thread en background
+        //we go to a thread for background process to do the API call
         viewModelScope.launch(Dispatchers.IO) {
             val response = getRecipeUseCase.getRecipeFromURL(recipeURL)
-            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            //Go back to main thread when we want to update the details of the current recipe
             withContext(Dispatchers.Main){
                 recipeDetails.value = response
             }
-            //on se remet dans le thread en background
         }
     }
 
     fun addRecipe(recipe: RecipeDetails){
+        //we go to a thread for background process to add the recipe into the room database
         viewModelScope.launch(Dispatchers.IO) {
             addRecipeUseCase.addRecipeToDB(recipe.toEntity())
-            System.out.println("ADDED ELEMENT INTO THE DATABASE. HERE IS THE LIST OF RECIPIES IN THE DATABASE:")
-            val list = getRecipeUseCase.getAllRecipeFromDB()
-            for (r in list){
-                System.out.println(r.title)
-            }
         }
     }
 
     fun deleteRecipe(recipe: RecipeDetails){
+        //we go to a thread for background process to delete the recipe into the room database
         viewModelScope.launch(Dispatchers.IO) {
             addRecipeUseCase.removeRecipeFromDB(recipe.toEntity())
-            System.out.println("REMOVED ELEMENT INTO THE DATABASE. HERE IS THE LIST OF RECIPIES IN THE DATABASE:")
-            val list = getRecipeUseCase.getAllRecipeFromDB()
-            for (r in list){
-                System.out.println(r.title)
-            }
         }
     }
 
-    fun ifExist(idRecipe: Int) : LiveData<Int>{
+    fun ifExist(idRecipe: Int) : LiveData<Int>{//Check whether the recipe is in the room database or not
             return getRecipeUseCase.ifRecipeExists(idRecipe)
     }
 

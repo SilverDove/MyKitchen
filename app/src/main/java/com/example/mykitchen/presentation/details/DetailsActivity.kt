@@ -37,24 +37,26 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     fun InitialConfiguration(){
+        //Get url link of the recipe
         val url = intent.getStringExtra(ID_NUMBER_INTENT)
         if(url != null){
             detailsViewModel.makeAPICall(url)
         }
 
-        //Si la liste change, MainActivity est prévenue pour modifier l'affichage
+        //If the details of the recipe changed, we change the display
         detailsViewModel.recipeDetails.observe(this, Observer {
             currentRecipe = it
-            displayContent()
+            displayContent()//Display the information about the recipe
 
+            //If the recipe is in the room database or not, we change the icon
             detailsViewModel.ifExist(currentRecipe.id).observe(this, {
                 favoriteRecipe = it != null
                 if (menu != null) run {
                     var item = menu.findItem(R.id.add_to_list)
                     if (item != null) {
-                        if (favoriteRecipe) {
+                        if (favoriteRecipe) {//If the recipe is in the database
                             item.setIcon(R.drawable.ic_playlist_add_check)
-                        } else {
+                        } else {//If the recipe is not in the database
                             item.setIcon(R.drawable.ic_playlist_add)
                         }
                     }
@@ -65,7 +67,6 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         //TODO: check if it is working
-        finish()
         onBackPressed()
         return true;
     }
@@ -83,8 +84,9 @@ class DetailsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.add_to_list -> {
-                if (favoriteRecipe) {
+                if (favoriteRecipe) {//If we click on the item and the recipe is already in the database
                     detailsViewModel.deleteRecipe(currentRecipe)
+                    favoriteRecipe = false
                     Toast.makeText(this, "The recipe ${currentRecipe.title} was removed from your list", Toast.LENGTH_LONG).show()
                 } else {
                     favoriteRecipe = true

@@ -19,37 +19,36 @@ class ListViewModel (
     var recipeURL: MutableLiveData<String> = MutableLiveData()
 
     fun getAllRecipeFromDB() {
-        //on passe dans un thread en background
+        //we go to a thread for background process to get all recipes from the Room database
         viewModelScope.launch(Dispatchers.IO) {
             val response = getRecipeUseCase.getAllRecipeFromDB()
-            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            //Go back to main thread when we want tp update the list of favorite recipes
             withContext(Dispatchers.Main) {
                 listFavoriteRecipe.value = response
             }
-            //on se remet dans le thread en background
         }
     }
 
     fun getRecipeURL(id: Int) {
+        //we go to a thread for background process to get the url of the selected recipe
         viewModelScope.launch(Dispatchers.IO) {
             val response = getRecipeUseCase.getRecipeURL(id)
-            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            //Go back to main thread when we want to update the current url
             withContext(Dispatchers.Main){
                 recipeURL.value = response
             }
-            //on se remet dans le thread en background
         }
     }
 
     fun deleteAll() {
+        //we go to a thread for background process to delete all the favorite recipes from the Room database
         viewModelScope.launch(Dispatchers.IO) {
             addRecipeUseCase.removeAllFromDB()
             val response = getRecipeUseCase.getAllRecipeFromDB()
-            //on se remet dans le Main thread (on est obligé lorsqu'on met a jour la vue via une LiveData
+            //Go back to main thread when we want to update the list of favorite recipe
             withContext(Dispatchers.Main) {
                 listFavoriteRecipe.value = response
             }
-            //on se remet dans le thread en background
         }
     }
 }
