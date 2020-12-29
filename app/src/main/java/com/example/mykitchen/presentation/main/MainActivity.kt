@@ -39,8 +39,15 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
             }else{
                 noResult.visibility = View.INVISIBLE
             }
-
         })
+
+        mainViewModel.recipeURL.observe(this, Observer {
+            val intent = Intent(this, DetailsActivity::class.java)
+            val url : String = it
+            intent.putExtra(ID_NUMBER_INTENT, url)
+            startActivity(intent)
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -63,7 +70,7 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
     }
 
     private fun searchRecipe(){
-        val searchBar: SearchView = findViewById(R.id.search);
+        val searchBar: SearchView = findViewById(R.id.search)
 
         searchBar.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {//When click on submit button
@@ -87,13 +94,6 @@ class MainActivity : AppCompatActivity(), MyKitchenAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {//Go to another activity after clicking on the item
-        val intent = Intent(this, DetailsActivity::class.java)
-        var url : String
         mainViewModel.getRecipeURL(listRecipe[position].id)//Get the url of the recipe
-        mainViewModel.recipeURL.observe(this, Observer {
-            url = it
-            intent.putExtra(ID_NUMBER_INTENT, url)
-            startActivity(intent)
-        })
     }
 }
