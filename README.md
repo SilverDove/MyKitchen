@@ -9,7 +9,7 @@ It is intuitive and optimized for the ease of everyone. Enjoy it!
 ## Getting Started
 1. Download and install [Android Studio](https://developer.android.com/studio/)
 2. Clone or download the [master branch](https://github.com/SilverDove/MyKitchen.git) using the functionalities of Android Studio. 
-It's also possible to fetch the [release project]() and then import it directly to Android Studio.
+It's also possible to fetch the [release project](https://github.com/SilverDove/MyKitchen/releases/tag/v1.0) and then import it directly to Android Studio.
 
 
 ## Features
