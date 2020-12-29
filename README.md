@@ -75,7 +75,7 @@ At the end, we can see the instructions and the source url of the recipe.
  
   * **Remove from the favoriteList:** 
   To remove the recipe from the favorite list , the user need to click on the icon at the top right of the screen. Then, the icon changes to indicate that the recipe is not in the favorite List anymore. Moreover, a toast appears during few seconds to confirm the operation.
-  <img src="" width="400" height="600" />
+  <img src="https://github.com/SilverDove/MyKitchen/blob/master/ScreenShots/Details_Page_Remove.png" width="400" height="600" />
  ![]()
 
  ### FavoriteList Page
